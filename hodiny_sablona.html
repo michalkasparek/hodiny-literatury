@@ -1,0 +1,65 @@
+<html>
+<head><title></title>
+
+      <style>
+		body { font-family: monospace;
+		font-size: 6em; 
+		padding: 0.2em;
+		line-height : 1.35em;
+		}
+		p { display : inline; margin : 0; padding : 0 }
+		#odkazy { padding : 0; margin : 0}
+		a { text-decoration : none; color : #ddd;}
+		strong {color : white; background : black}
+      </style>
+
+</head>
+<body>
+<div id="cifernik"> </div>
+<p id="odkazy"><a href="https://github.com/michalkasparek/hodiny-literatury">&raquo;zdroják</a> <a href="https://literature-clock.jenevoldsen.com/">&raquo;inspirace</a> <a href="https://michalkasparek.cz">&raquo;autor</a></p>
+<script>
+
+<!-- CASY SEM -->
+
+<!-- CASY SEM -->
+
+function najdi_cas() {
+    let hodina = new Date().getHours();
+    let minuta = new Date().getMinutes();
+    let actualCas = String(hodina).padStart(2, '0') + ':' + String(minuta).padStart(2, '0');
+    
+    let cas = actualCas;
+    
+    while (!cifernik.hasOwnProperty(cas)) {
+        minuta -= 1;
+        if (minuta < 0) {
+            minuta = 59;
+            hodina -= 1;
+            if (hodina < 0) {
+                hodina = 23;
+            }
+        }
+        cas = String(hodina).padStart(2, '0') + ':' + String(minuta).padStart(2, '0');
+    }
+
+    return [actualCas, cas];
+}
+
+function loop() {
+    const cifernikElement = document.getElementById('cifernik');
+    
+    let casValues = najdi_cas();
+    
+    cifernikElement.innerHTML = "<p><span id=\"cas\">" + casValues[0] + "</span> » <span id=\"citat\">" + cifernik[casValues[1]] + "</p>"; 
+	
+	document.title = casValues[0] + " » hodiny literatury"
+	
+    setTimeout(loop, 1000);
+}
+
+loop();
+
+</script>
+
+</body>
+</html>
